@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def carregarBanco():
+def conectarBanco():
     try:
         conexao = psycopg.connect(
             host = os.getenv("DB_HOST"),
@@ -17,3 +17,6 @@ def carregarBanco():
     except Exception as erro:
         print(f"Erro ao conectar no banco.\n\nErro: {erro}")
         raise erro
+
+
+def criarBanco()
