@@ -19,4 +19,21 @@ def conectarBanco():
         raise erro
 
 
-def criarBanco()
+def criarBanco():
+    conexao = conectarBanco()
+    cursor = conexao.cursor()
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS Filmes (
+            Nome VARCHAR NOT NULL PRIMARY KEY,
+            AnoLancamento INTEGER CHECK (AnoLancamento >= 0 AND AnoLancamento <= 9999),
+            Diretor VARCHAR NOT NULL,
+            Nota INTEGER CHECK (Nota >= 0 AND Nota <= 10)
+            )
+        """)
+    
+    #confirma que a alteração foi feita
+    conexao.commit()
+
+
+    #fecha a conexao
+    conexao.close()

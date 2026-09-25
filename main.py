@@ -1,9 +1,12 @@
 from fastapi import FastAPI, HTTPException
-from banco import conectarBanco
+from banco import conectarBanco, criarBanco
 
 
+#cria o app(Inicia a API)
 app = FastAPI()
 
+#cria o banco
+criarBanco()
 
 
 #Rota da página incial
