@@ -37,3 +37,22 @@ def criarBanco():
 
     #fecha a conexao
     conexao.close()
+
+
+
+#TIRAR DEPOIS
+def testarfilmes(tupla):
+    conexao = conectarBanco()
+    cursor = conexao.cursor()
+
+    #cria uma variável a parte para inserção dos valores para facilitar
+    sqlInserir = "INSERT INTO Filmes (Nome, AnoLancamento, Diretor, Nota) VALUES (%s, %s, %s, %s)"
+    
+    #insere os dados
+    cursor.execute(sqlInserir, (tupla[0],tupla[1], tupla[2],tupla[3]))
+
+    #confirma que a alteração foi feita
+    conexao.commit()
+
+    #fecha a conexao
+    conexao.close()
