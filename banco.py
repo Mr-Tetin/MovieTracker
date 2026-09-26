@@ -43,8 +43,7 @@ def criarBanco():
 
 
 #TIRAR DEPOIS
-def testarfilmes(tupla):
-    criarBanco()
+def testarFilmes(tupla):
     conexao = conectarBanco()
     cursor = conexao.cursor()
 
@@ -57,6 +56,8 @@ def testarfilmes(tupla):
     #confirma que a alteração foi feita
     conexao.commit()
 
+    
+def gerarfilmes():
     filmes = [
             ("Interestelar", "Ficção científica", 2014, "Christopher Nolan", 10),
             ("O Poderoso Chefão", "Crime", 1972, "Francis Ford Coppola", 10),
@@ -111,9 +112,9 @@ def testarfilmes(tupla):
         ]
     
     for filme in filmes:
-        testarfilmes(filme)
+        testarFilmes(filme)
     
-        return "Filmes Adicionados!"
+    return "Filmes Adicionados!"
 
     #fecha a conexao
     conexao.close()
@@ -160,7 +161,7 @@ def adicionarFilmes(nome: str, genero: str, anoLancamento: int, diretor: str):
     cursor = conexao.cursor()
 
     #cria uma variável a parte para inserção dos valores para facilitar
-    sqlInserir = "INSERT INTO Filmes (Nome, Genero, AnoLancamento, Diretor, Nota) VALUES (%s, %s, %s, %s)"
+    sqlInserir = "INSERT INTO Filmes (Nome, Genero, AnoLancamento, Diretor) VALUES (%s, %s, %s, %s)"
 
     #insere os dados
     cursor.execute(sqlInserir, (nome, genero, anoLancamento, diretor))
@@ -168,15 +169,21 @@ def adicionarFilmes(nome: str, genero: str, anoLancamento: int, diretor: str):
     conexao.commit()
 
     conexao.close()
+    return "Filme Adicionado!"
   
 def avaliarFilme(nomeFilme, avaliacao, nota):
     conexao = conectarBanco()
     cursor = conexao.cursor()
 
+    
     sqlTeste = "SELECT * FROM filmes WHERE nome = %s"
     cursor.execute(sqlTeste, (nomeFilme,))
     teste = cursor.fetchall()
 
+    
+    if(nota < 0 or nota > 10):
+        return "Insira uma nota válida"
+    
     if not teste:
         return "Insira um nome válido!"
     else:
