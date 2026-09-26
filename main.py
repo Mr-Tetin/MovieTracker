@@ -1,6 +1,6 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from banco import criarBanco, gerarfilmes, adicionarFilmes, verFilmes, avaliarFilme
-from modelos import verFilme, adicionarFilme, filmeAvaliar
+from modelos import adicionarFilme, filmeAvaliar
 
 
 #cria o app(Inicia a API)

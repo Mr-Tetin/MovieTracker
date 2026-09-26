@@ -55,6 +55,7 @@ def testarFilmes(tupla):
 
     #confirma que a alteração foi feita
     conexao.commit()
+    conexao.close()
 
     
 def gerarfilmes():
@@ -116,8 +117,7 @@ def gerarfilmes():
     
     return "Filmes Adicionados!"
 
-    #fecha a conexao
-    conexao.close()
+    
 
 #FUNÇÕES COMUNICAÇÃO COM O BANCO
 def verFilmes(nome : str | None = None, genero: str | None = None, anoLancamento : int | None = None, diretor : str | None = None, nota : int | None = None):
@@ -182,9 +182,11 @@ def avaliarFilme(nomeFilme, avaliacao, nota):
 
     
     if(nota < 0 or nota > 10):
+        conexao.close()
         return "Insira uma nota válida"
     
     if not teste:
+        conexao.close()
         return "Insira um nome válido!"
     else:
         #cria uma variável a parte para inserção dos valores para facilitar
