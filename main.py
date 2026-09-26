@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from banco import criarBanco, gerarfilmes, adicionarFilmes, verFilmes, avaliarFilme
-from modelos import adicionarFilme, filmeAvaliar
+from Banco.banco import criarBanco, gerarfilmes, adicionarFilmes, verFilmes, avaliarFilme
+from Modelos.modelos import adicionarFilme, filmeAvaliar
 
 
 #cria o app(Inicia a API)

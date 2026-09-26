@@ -26,7 +26,7 @@ def criarBanco():
     cursor.execute("""CREATE TABLE IF NOT EXISTS Filmes (
             Nome VARCHAR NOT NULL PRIMARY KEY,
             Genero VARCHAR NOT NULL,
-            AnoLancamento INTEGER CHECK (AnoLancamento >= 0 AND AnoLancamento <= 9999),
+            AnoLancamento INTEGER CHECK (AnoLancamento >= 1895 AND AnoLancamento <= 2999),
             Diretor VARCHAR NOT NULL,
             Nota INTEGER CHECK (Nota >= 0 AND Nota <= 10),
             Avaliacao TEXT
