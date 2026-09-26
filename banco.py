@@ -25,6 +25,7 @@ def criarBanco():
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS Filmes (
             Nome VARCHAR NOT NULL PRIMARY KEY,
+            Genero VARCHAR NOT NULL,
             AnoLancamento INTEGER CHECK (AnoLancamento >= 0 AND AnoLancamento <= 9999),
             Diretor VARCHAR NOT NULL,
             Nota INTEGER CHECK (Nota >= 0 AND Nota <= 10)
@@ -42,14 +43,15 @@ def criarBanco():
 
 #TIRAR DEPOIS
 def testarfilmes(tupla):
+    criarBanco()
     conexao = conectarBanco()
     cursor = conexao.cursor()
 
     #cria uma variável a parte para inserção dos valores para facilitar
-    sqlInserir = "INSERT INTO Filmes (Nome, AnoLancamento, Diretor, Nota) VALUES (%s, %s, %s, %s)"
+    sqlInserir = "INSERT INTO Filmes (Nome, Genero, AnoLancamento, Diretor, Nota) VALUES (%s, %s, %s, %s, %s)"
     
     #insere os dados
-    cursor.execute(sqlInserir, (tupla[0],tupla[1], tupla[2],tupla[3]))
+    cursor.execute(sqlInserir, (tupla[0],tupla[1], tupla[2],tupla[3], tupla[4]))
 
     #confirma que a alteração foi feita
     conexao.commit()
