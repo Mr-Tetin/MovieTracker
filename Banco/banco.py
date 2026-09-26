@@ -1,6 +1,7 @@
 import os
 import psycopg
 from dotenv import load_dotenv
+from typing import Literal
 
 load_dotenv()
 
@@ -199,3 +200,34 @@ def avaliarFilme(nomeFilme, avaliacao, nota):
         conexao.close()
 
         return "Avaliação feita!"
+
+def editarFilmeBanco(nomeFilme : str, colunaFilme : Literal["nome", "genero", "anoLancamento", "diretor"], novoValor):
+    conexao = conectarBanco()
+    cursor = conexao.cursor()
+
+    colunasPermitidas = {
+        "nome" : "nome",
+        "genero" : "genero",
+        "anoLancamento" : "anoLancamento",
+        "diretor" : "diretor"
+    }
+
+    if colunaFilme not in colunasPermitidas:
+        conexao.close()
+        return "Insira uma coluna válida para edição!"
+
+    
+    colunaSql = colunasPermitidas[colunaFilme]
+
+    sqlEditar = f"UPDATE filmes SET {colunaSql} = %s WHERE nome = %s"
+
+    cursor.execute(sqlEditar, (novoValor, nomeFilme))
+
+    if cursor.rowcount == 0:
+        conexao.close()
+        return "Filme não encontrado!"
+
+    conexao.commit()
+    conexao.close()
+
+    return "Filme editado com sucesso!"

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from Banco.banco import criarBanco, gerarfilmes, adicionarFilmes, verFilmes, avaliarFilme
-from Modelos.modelos import adicionarFilme, filmeAvaliar
+from Banco.banco import criarBanco, gerarfilmes, adicionarFilmes, verFilmes, avaliarFilme, editarFilmeBanco
+from Modelos.modelos import adicionarFilme, filmeAvaliar, editarFilmeModelo
 
 
 #cria o app(Inicia a API)
@@ -15,8 +15,6 @@ criarBanco()
 def paginaInicial():
     
     return "MovieTracker"
-
-
 
 #Rota para ver os filmes existentes
 @app.get("/verFilmes")
@@ -39,3 +37,7 @@ def chamarTestefilmes():
 @app.put("/avaliarFilme")
 def chamarAvaliarFilme(filme : filmeAvaliar):
     return avaliarFilme(filme.nomeFilme, filme.avaliacao, filme.nota)
+
+@app.put("/editarFilme")
+def chamarEditarFilme(filme : editarFilmeModelo):
+    return editarFilmeBanco(filme.nome, filme.coluna, filme.valorNovo)
