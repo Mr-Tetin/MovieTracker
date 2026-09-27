@@ -190,7 +190,7 @@ img, svg{ display:block; max-width:100%; }
 }
 .filters__row{
   display: grid;
-  grid-template-columns: repeat(3, 1fr) 110px 110px auto;
+  grid-template-columns: repeat(3, 1fr) 100px 100px 100px auto;
   gap: 12px;
   align-items: end;
 }

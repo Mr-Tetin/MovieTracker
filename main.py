@@ -30,9 +30,11 @@ def chamarVerFilme(nome: str | None = None,
     genero: str | None = None,
     anoLancamento: int | None = None,
     diretor: str | None = None,
-    nota: int | None = None):
+    notaMinima: int | None = None,
+    notaMaxima: int | None = None
+    ):
 
-    return verFilmesBanco(nome, genero, anoLancamento, diretor, nota)
+    return verFilmesBanco(nome, genero, anoLancamento, diretor, notaMinima, notaMaxima)
 
 @app.post("/adicionarFilme")
 def chamarAdicionarFilmes(filme : adicionarFilmeModelo):

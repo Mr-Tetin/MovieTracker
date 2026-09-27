@@ -148,7 +148,8 @@ def verFilmesBanco(nome : str | None = None, genero: str | None = None, anoLanca
         condicao.append("nota >= %s")
         valores.append(notaMinima)
     if (notaMaxima is not None):
-
+        condicao.append("nota <= %s")
+        valores.append(notaMaxima)
 
     if(condicao):
         sqlConsulta += " WHERE " + " AND ".join(condicao)

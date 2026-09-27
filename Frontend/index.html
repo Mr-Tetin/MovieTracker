@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MovieTracker</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<link rel="icon" type="iamge/x-icon" href="/Frontend/assets/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/Frontend/assets/favicon.svg">
 </head>
 <body>
 
@@ -65,8 +66,12 @@
           <input type="number" id="fAno" placeholder="Ano" min="1895" max="2999">
         </div>
         <div class="field field--small">
-          <label for="fNota">Nota mín.</label>
-          <input type="number" id="fNota" placeholder="0–10" min="0" max="10">
+          <label for="fNotaMin">Nota mín.</label>
+          <input type="number" id="fNotaMin" placeholder="0" min="0" max="10">
+        </div>
+        <div class="field field--small">
+          <label for="fNotaMax">Nota máx.</label>
+          <input type="number" id="fNotaMax" placeholder="10" min="0" max="10">
         </div>
         <div class="field field--actions">
           <button class="btn btn--outline" id="btnFilter">Filtrar</button>
@@ -77,7 +82,7 @@
 
     <section class="toolbar">
       <p class="toolbar__count" id="resultCount">—</p>
-      <button class="btn btn--text" id="btnSeed">Popular com filmes de exemplo</button>
+      <button class="btn btn--text" id="btnSeed">Inserir filmes de exemplo</button>
     </section>
 
     <section id="movieGridWrap">
@@ -99,7 +104,7 @@
   </main>
 
   <footer class="footer">
-    <p>MovieTracker&copy; · Todos os direitos reservados</p>
+    <p>MovieTracker · frontend consumindo a API FastAPI local</p>
   </footer>
 
   <!-- Modal: Adicionar / Editar filme -->

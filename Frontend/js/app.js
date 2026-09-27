@@ -12,7 +12,7 @@ const MENSAGENS_FALHA = new Set([
 ]);
 
 let currentMovies = [];
-let movieBeingEdited = null;
+let movieBeingEdited = null; // nome do filme alvo dos modais de avaliar/editar/excluir
 
 /* ---------------------------- Utilidades DOM ---------------------------- */
 
@@ -76,7 +76,7 @@ async function apiFetch(path, options = {}) {
     });
   } catch (erro) {
     throw new ApiError(
-      "Não foi possível conectar à API. Verifique se o backend está rodando e se o endereço em ⚙ API está correto.",
+      "Não foi possível conectar à API. Verifique se o backend está rodando e se o endereço em ⚙ API está correto, ou se essa ação já foi realizada.",
       0
     );
   }
@@ -155,13 +155,15 @@ function buildFiltroQuery() {
   const genero = $("fGenero").value.trim();
   const diretor = $("fDiretor").value.trim();
   const ano = $("fAno").value.trim();
-  const nota = $("fNota").value.trim();
+  const notaMinima = $("fNotaMin").value.trim();
+  const notaMaxima = $("fNotaMax").value.trim();
 
   if (nome) params.set("nome", nome);
   if (genero) params.set("genero", genero);
   if (diretor) params.set("diretor", diretor);
   if (ano) params.set("anoLancamento", ano);
-  if (nota) params.set("nota", nota);
+  if (notaMinima) params.set("notaMinima", notaMinima);
+  if (notaMaxima) params.set("notaMaxima", notaMaxima);
 
   return params;
 }
@@ -412,10 +414,10 @@ $("btnConfirmDelete").addEventListener("click", async () => {
 
 $("btnFilter").addEventListener("click", carregarFilmes);
 $("btnClearFilter").addEventListener("click", () => {
-  ["fNome", "fGenero", "fDiretor", "fAno", "fNota"].forEach((id) => ($(id).value = ""));
+  ["fNome", "fGenero", "fDiretor", "fAno", "fNotaMin", "fNotaMax"].forEach((id) => ($(id).value = ""));
   carregarFilmes();
 });
-["fNome", "fGenero", "fDiretor", "fAno", "fNota"].forEach((id) => {
+["fNome", "fGenero", "fDiretor", "fAno", "fNotaMin", "fNotaMax"].forEach((id) => {
   $(id).addEventListener("keydown", (e) => {
     if (e.key === "Enter") carregarFilmes();
   });
