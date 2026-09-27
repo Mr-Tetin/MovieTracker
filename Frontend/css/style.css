@@ -223,6 +223,16 @@ input:focus, select:focus, textarea:focus{
   border-color: var(--orange-500);
   box-shadow: 0 0 0 3px rgba(255,122,26,0.18);
 }
+
+select{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23FF7A1A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 34px;
+}
 textarea{ resize: vertical; min-height: 90px; }
 
 input[type="range"]{
