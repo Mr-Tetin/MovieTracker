@@ -429,7 +429,7 @@ $("btnSeed").addEventListener("click", async () => {
   const btn = $("btnSeed");
   btn.disabled = true;
   try {
-    const resultado = await apiFetch("/testarfilmes", { method: "POST" });
+    const resultado = await apiFetch("/testarFilmes", { method: "POST" });
     showToast(typeof resultado === "string" ? resultado : "Filmes de exemplo adicionados!", "success");
     carregarFilmes();
   } catch (erro) {

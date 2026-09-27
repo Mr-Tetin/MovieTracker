@@ -44,8 +44,13 @@
 
 html{ color-scheme: dark; }
 
+html, body{ height: 100%; }
+
 body{
   margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   background-image:
     radial-gradient(ellipse 900px 500px at 15% -10%, rgba(255,122,26,0.14), transparent 60%),
@@ -178,7 +183,7 @@ img, svg{ display:block; max-width:100%; }
 .btn--icon:hover{ color: var(--orange-400, var(--orange-500)); border-color: var(--orange-700); }
 
 /* ---------- Layout ---------- */
-.main{ max-width: 1180px; margin: 0 auto; padding: 28px 24px 60px; }
+.main{ width:100%; max-width: 1180px; margin: 0 auto; padding: 28px 24px 60px; flex: 1 0 auto; }
 
 /* ---------- Filters ---------- */
 .filters{
