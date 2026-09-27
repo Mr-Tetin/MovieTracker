@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MovieTracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="iamge/x-icon" href="/Frontend/assets/favicon.svg">
+</head>
+<body>
+
+  <!-- Trilha de perfurações decorativa (estética de rolo de filme) -->
+  <div class="sprocket-rail" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="header__inner">
+      <div class="brand">
+        <svg class="brand__reel" viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="3"/>
+          <circle cx="24" cy="24" r="4" fill="currentColor"/>
+          <circle cx="24" cy="10" r="3.2" fill="currentColor"/>
+          <circle cx="36.12" cy="17" r="3.2" fill="currentColor"/>
+          <circle cx="36.12" cy="31" r="3.2" fill="currentColor"/>
+          <circle cx="24" cy="38" r="3.2" fill="currentColor"/>
+          <circle cx="11.88" cy="31" r="3.2" fill="currentColor"/>
+          <circle cx="11.88" cy="17" r="3.2" fill="currentColor"/>
+        </svg>
+        <div>
+          <h1 class="brand__title">Movie<span>Tracker</span></h1>
+          <p class="brand__tagline">seu catálogo pessoal de filmes</p>
+        </div>
+      </div>
+
+      <div class="header__actions">
+        <span class="status" id="connectionStatus" data-state="checking">
+          <span class="status__dot"></span>
+          <span class="status__label">verificando API…</span>
+        </span>
+        <button class="btn btn--ghost" id="btnSettings" title="Configurar endereço da API">⚙ API</button>
+        <button class="btn btn--primary" id="btnAddMovie">+ Adicionar filme</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="filters" aria-label="Filtros de busca">
+      <div class="filters__row">
+        <div class="field">
+          <label for="fNome">Nome <small>(exato)</small></label>
+          <input type="text" id="fNome" placeholder="Ex.: Matrix">
+        </div>
+        <div class="field">
+          <label for="fGenero">Gênero <small>(exato)</small></label>
+          <input type="text" id="fGenero" placeholder="Ex.: Drama">
+        </div>
+        <div class="field">
+          <label for="fDiretor">Diretor <small>(exato)</small></label>
+          <input type="text" id="fDiretor" placeholder="Ex.: Christopher Nolan">
+        </div>
+        <div class="field field--small">
+          <label for="fAno">A partir de</label>
+          <input type="number" id="fAno" placeholder="Ano" min="1895" max="2999">
+        </div>
+        <div class="field field--small">
+          <label for="fNota">Nota mín.</label>
+          <input type="number" id="fNota" placeholder="0–10" min="0" max="10">
+        </div>
+        <div class="field field--actions">
+          <button class="btn btn--outline" id="btnFilter">Filtrar</button>
+          <button class="btn btn--text" id="btnClearFilter">Limpar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <p class="toolbar__count" id="resultCount">—</p>
+      <button class="btn btn--text" id="btnSeed">Popular com filmes de exemplo</button>
+    </section>
+
+    <section id="movieGridWrap">
+      <div class="grid" id="movieGrid" aria-live="polite"></div>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="8" y="14" width="48" height="36" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+          <path d="M8 22h48M18 14v8M30 14v8M42 14v8" stroke="currentColor" stroke-width="3"/>
+        </svg>
+        <h3>Nenhum filme por aqui</h3>
+        <p id="emptyStateText">Adicione o primeiro filme ao seu catálogo ou ajuste os filtros.</p>
+      </div>
+
+      <div class="loading-state" id="loadingState" hidden>
+        <span class="spinner"></span> carregando filmes…
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>MovieTracker&copy; · Todos os direitos reservados</p>
+  </footer>
+
+  <!-- Modal: Adicionar / Editar filme -->
+  <div class="modal-overlay" id="modalMovie" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalMovieTitle">
+      <div class="modal__head">
+        <h2 id="modalMovieTitle">Adicionar filme</h2>
+        <button class="modal__close" data-close>&times;</button>
+      </div>
+      <form id="formMovie" class="modal__body">
+        <div class="field">
+          <label for="mNome">Nome</label>
+          <input type="text" id="mNome" maxlength="1000" required>
+        </div>
+        <div class="field">
+          <label for="mGenero">Gênero</label>
+          <input type="text" id="mGenero" maxlength="200" required>
+        </div>
+        <div class="field">
+          <label for="mAno">Ano de lançamento</label>
+          <input type="number" id="mAno" min="1895" max="2999" required>
+        </div>
+        <div class="field">
+          <label for="mDiretor">Diretor</label>
+          <input type="text" id="mDiretor" maxlength="250" required>
+        </div>
+        <p class="form-error" id="movieFormError" hidden></p>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--text" data-close>Cancelar</button>
+          <button type="submit" class="btn btn--primary" id="btnSubmitMovie">Salvar filme</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Avaliar filme -->
+  <div class="modal-overlay" id="modalRate" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalRateTitle">
+      <div class="modal__head">
+        <h2 id="modalRateTitle">Avaliar filme</h2>
+        <button class="modal__close" data-close>&times;</button>
+      </div>
+      <form id="formRate" class="modal__body">
+        <div class="field">
+          <label for="rNota">Nota: <span id="rNotaValue">5</span>/10</label>
+          <input type="range" id="rNota" min="0" max="10" step="1" value="5">
+        </div>
+        <div class="field">
+          <label for="rAvaliacao">Sua avaliação</label>
+          <textarea id="rAvaliacao" rows="4" maxlength="3000" placeholder="O que você achou do filme?" required></textarea>
+        </div>
+        <p class="form-error" id="rateFormError" hidden></p>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--text" data-close>Cancelar</button>
+          <button type="submit" class="btn btn--primary">Salvar avaliação</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Editar campo -->
+  <div class="modal-overlay" id="modalEdit" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalEditTitle">
+      <div class="modal__head">
+        <h2 id="modalEditTitle">Editar filme</h2>
+        <button class="modal__close" data-close>&times;</button>
+      </div>
+      <form id="formEdit" class="modal__body">
+        <div class="field">
+          <label for="eColuna">Campo a editar</label>
+          <select id="eColuna">
+            <option value="nome">Nome</option>
+            <option value="genero">Gênero</option>
+            <option value="anoLancamento">Ano de lançamento</option>
+            <option value="diretor">Diretor</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="eValor">Novo valor</label>
+          <input type="text" id="eValor" maxlength="3000" required>
+        </div>
+        <p class="form-error" id="editFormError" hidden></p>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--text" data-close>Cancelar</button>
+          <button type="submit" class="btn btn--primary">Salvar edição</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Confirmar exclusão -->
+  <div class="modal-overlay" id="modalDelete" hidden>
+    <div class="modal modal--small" role="dialog" aria-modal="true" aria-labelledby="modalDeleteTitle">
+      <div class="modal__head">
+        <h2 id="modalDeleteTitle">Excluir filme</h2>
+        <button class="modal__close" data-close>&times;</button>
+      </div>
+      <div class="modal__body">
+        <p id="deleteConfirmText">Tem certeza que deseja excluir este filme do seu catálogo?</p>
+        <p class="form-error" id="deleteFormError" hidden></p>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--text" data-close>Cancelar</button>
+          <button type="button" class="btn btn--danger" id="btnConfirmDelete">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Configurações da API -->
+  <div class="modal-overlay" id="modalSettings" hidden>
+    <div class="modal modal--small" role="dialog" aria-modal="true" aria-labelledby="modalSettingsTitle">
+      <div class="modal__head">
+        <h2 id="modalSettingsTitle">Endereço da API</h2>
+        <button class="modal__close" data-close>&times;</button>
+      </div>
+      <form id="formSettings" class="modal__body">
+        <div class="field">
+          <label for="sBaseUrl">URL base do backend FastAPI</label>
+          <input type="text" id="sBaseUrl" placeholder="http://127.0.0.1:8000">
+        </div>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--text" data-close>Cancelar</button>
+          <button type="submit" class="btn btn--primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="assertive"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

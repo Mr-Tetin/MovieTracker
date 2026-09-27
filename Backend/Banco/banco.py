@@ -59,7 +59,7 @@ def testarFilmes(tupla):
     conexao.close()
 
     
-def gerarfilmes():
+def gerarfilmesBanco():
     filmes = [
             ("Interestelar", "Ficção científica", 2014, "Christopher Nolan", 10),
             ("O Poderoso Chefão", "Crime", 1972, "Francis Ford Coppola", 10),
@@ -121,7 +121,7 @@ def gerarfilmes():
     
 
 #FUNÇÕES COMUNICAÇÃO COM O BANCO
-def verFilmes(nome : str | None = None, genero: str | None = None, anoLancamento : int | None = None, diretor : str | None = None, nota : int | None = None):
+def verFilmesBanco(nome : str | None = None, genero: str | None = None, anoLancamento : int | None = None, diretor : str | None = None, notaMinima : int | None = None , notaMaxima : int | None = None):
     conexao = conectarBanco()
     cursor = conexao.cursor()
 
@@ -142,11 +142,13 @@ def verFilmes(nome : str | None = None, genero: str | None = None, anoLancamento
         condicao.append("anoLancamento >= %s")
         valores.append(anoLancamento)
     if (diretor):
-            condicao.append("diretor = %s")
-            valores.append(diretor)
-    if (nota is not None):
-            condicao.append("nota >= %s")
-            valores.append(nota)
+        condicao.append("diretor = %s")
+        valores.append(diretor)
+    if (notaMinima is not None):
+        condicao.append("nota >= %s")
+        valores.append(notaMinima)
+    if (notaMaxima is not None):
+
 
     if(condicao):
         sqlConsulta += " WHERE " + " AND ".join(condicao)
@@ -157,7 +159,7 @@ def verFilmes(nome : str | None = None, genero: str | None = None, anoLancamento
 
     return filmes
 
-def adicionarFilmes(nome: str, genero: str, anoLancamento: int, diretor: str):
+def adicionarFilmesBanco(nome: str, genero: str, anoLancamento: int, diretor: str):
     conexao = conectarBanco()
     cursor = conexao.cursor()
 
@@ -172,7 +174,7 @@ def adicionarFilmes(nome: str, genero: str, anoLancamento: int, diretor: str):
     conexao.close()
     return "Filme Adicionado!"
   
-def avaliarFilme(nomeFilme, avaliacao, nota):
+def avaliarFilmeBanco(nomeFilme, avaliacao, nota):
     conexao = conectarBanco()
     cursor = conexao.cursor()
 
@@ -216,7 +218,6 @@ def editarFilmeBanco(nomeFilme : str, colunaFilme : Literal["nome", "genero", "a
         conexao.close()
         return "Insira uma coluna válida para edição!"
 
-    
     colunaSql = colunasPermitidas[colunaFilme]
 
     sqlEditar = f"UPDATE filmes SET {colunaSql} = %s WHERE nome = %s"
@@ -231,3 +232,24 @@ def editarFilmeBanco(nomeFilme : str, colunaFilme : Literal["nome", "genero", "a
     conexao.close()
 
     return "Filme editado com sucesso!"
+
+def excluirFilmeBanco(nomeFilme : str):
+    conexao = conectarBanco()
+    cursor = conexao.cursor()
+
+    sqlExcluir = "DELETE FROM filmes WHERE nome = %s"
+    sqlTeste = "SELECT * FROM filmes WHERE nome = %s"
+
+    cursor.execute(sqlTeste, (nomeFilme,))
+    teste = cursor.fetchall()
+
+    if not teste:
+        conexao.close()
+        return "Filme não encontrado!"
+
+    cursor.execute(sqlExcluir, (nomeFilme,))
+
+    conexao.commit()
+    conexao.close()
+
+    return "Filme excluído com sucesso!"

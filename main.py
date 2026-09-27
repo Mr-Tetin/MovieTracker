@@ -1,10 +1,18 @@
 from fastapi import FastAPI
-from Banco.banco import criarBanco, gerarfilmes, adicionarFilmes, verFilmes, avaliarFilme, editarFilmeBanco
-from Modelos.modelos import adicionarFilme, filmeAvaliar, editarFilmeModelo
+from fastapi.middleware.cors import CORSMiddleware
+from Backend.Banco.banco import criarBanco, gerarfilmesBanco, adicionarFilmesBanco, verFilmesBanco, avaliarFilmeBanco, editarFilmeBanco, excluirFilmeBanco
+from Backend.Modelos.modelos import adicionarFilmeModelo, avaliarFilmeModelo, editarFilmeModelo, excluirFilmeModelo
 
 
 #cria o app(Inicia a API)
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware, 
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 #cria o banco
 criarBanco()
@@ -24,20 +32,24 @@ def chamarVerFilme(nome: str | None = None,
     diretor: str | None = None,
     nota: int | None = None):
 
-    return verFilmes(nome, genero, anoLancamento, diretor, nota)
+    return verFilmesBanco(nome, genero, anoLancamento, diretor, nota)
 
 @app.post("/adicionarFilme")
-def chamarAdicionarFilmes(filme : adicionarFilme):
-    return adicionarFilmes(filme.nome, filme.genero, filme.anoLancamento, filme.diretor)
+def chamarAdicionarFilmes(filme : adicionarFilmeModelo):
+    return adicionarFilmesBanco(filme.nome, filme.genero, filme.anoLancamento, filme.diretor)
 
 @app.post("/testarfilmes")
 def chamarTestefilmes():
-    return gerarfilmes()
+    return gerarfilmesBanco()
 
 @app.put("/avaliarFilme")
-def chamarAvaliarFilme(filme : filmeAvaliar):
-    return avaliarFilme(filme.nomeFilme, filme.avaliacao, filme.nota)
+def chamarAvaliarFilme(filme : avaliarFilmeModelo):
+    return avaliarFilmeBanco(filme.nomeFilme, filme.avaliacao, filme.nota)
 
 @app.put("/editarFilme")
 def chamarEditarFilme(filme : editarFilmeModelo):
-    return editarFilmeBanco(filme.nome, filme.coluna, filme.valorNovo)
+    return editarFilmeBanco(filme.nomeFilme, filme.colunaFilme, filme.valorNovo)
+
+@app.put("/excluirFilme")
+def chamarExcluirFilme(filme : excluirFilmeModelo):
+    return excluirFilmeBanco(filme.nomeFilme)
