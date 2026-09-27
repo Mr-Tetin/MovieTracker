@@ -159,7 +159,7 @@ No canto superior direito da página, o indicador de status deve mostrar **"API 
 
 ### 7. (Opcional) Popular com filmes de exemplo
 
-Clique em **"Popular com filmes de exemplo"** na interface para testar rapidamente com ~50 filmes já cadastrados no `banco.py`.
+Clique em **"Inserir filmes de exemplo"** na interface para testar rapidamente com ~50 filmes já cadastrados no `banco.py`.
 
 ---
 
