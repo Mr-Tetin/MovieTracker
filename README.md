@@ -90,7 +90,7 @@ MovieTracker/
 | `GET` | `/` | Health check da API |
 | `GET` | `/verFilmes` | Lista filmes, com filtros opcionais: `nome`, `genero`, `anoLancamento`, `diretor`, `notaMinima`, `notaMaxima` |
 | `POST` | `/adicionarFilme` | Adiciona um filme (`nome`, `genero`, `anoLancamento`, `diretor`) |
-| `POST` | `/testarfilmes` | Popula o banco com filmes de exemplo |
+| `POST` | `/testarFilmes` | Popula o banco com filmes de exemplo |
 | `PUT` | `/avaliarFilme` | Avalia um filme (`nomeFilme`, `avaliacao`, `nota`) |
 | `PUT` | `/editarFilme` | Edita um campo do filme (`nomeFilme`, `colunaFilme`, `valorNovo`) |
 | `PUT` | `/excluirFilme` | Remove um filme (`nomeFilme`) |
