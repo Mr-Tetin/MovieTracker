@@ -40,7 +40,7 @@ def chamarVerFilme(nome: str | None = None,
 def chamarAdicionarFilmes(filme : adicionarFilmeModelo):
     return adicionarFilmesBanco(filme.nome, filme.genero, filme.anoLancamento, filme.diretor)
 
-@app.post("/testarfilmes")
+@app.post("/testarFilmes")
 def chamarTestefilmes():
     return gerarfilmesBanco()
 
