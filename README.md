@@ -44,7 +44,7 @@ O **back-end** é uma API REST construída com **FastAPI** e **PostgreSQL**, e o
 ### Back-end
 - **[Python 3.11](https://www.python.org/)**
 - **[FastAPI](https://fastapi.tiangolo.com/)** — framework da API REST
-- **[Uvicorn](https://www.uvicorn.org/)** — servidor ASGI
+- **[Uvicorn](https://www.uvicorn.dev/)** — servidor ASGI
 - **[Pydantic](https://docs.pydantic.dev/)** — validação dos dados de entrada
 - **[PostgreSQL](https://www.postgresql.org/)** — banco de dados relacional
 - **[Psycopg 3](https://www.psycopg.org/psycopg3/)** — driver de conexão com o Postgres
